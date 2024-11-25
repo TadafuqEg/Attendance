@@ -207,7 +207,7 @@ class AttendanceController extends ApiController
                 $data=[
                   "title"=>"Check-Out",
                   "message"=>"Don't forget to check out"];
-                  Notification::create(['user_id'=>$attendance->user_id,'data'=>$data]);
+                  Notification::create(['user_id'=>$attendance->user_id,'data'=>json_encode($data)]);
                }
           }
           
