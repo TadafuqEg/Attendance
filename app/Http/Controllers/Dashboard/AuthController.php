@@ -125,7 +125,7 @@ class AuthController extends Controller
 
     public function contact_us(){
         
-        $this->firebaseService->sendNotification('fCwn2Zb9QeGnzc7NhGY-lC:APA91bHZUOmlRA_as3b73YkfldzCnenUl3oaoJcO5Xah8Bimyp5M-LE51sByyQFT9RFsDR3BfG2qPBGCQo0xfYN3PPZ_zxB9YUVHJHRuXDybP6e3naiUpT8','hello message','hello micheal, how are you?',[]);
+        $this->firebaseService->sendNotification('fCwn2Zb9QeGnzc7NhGY-lC:APA91bHZUOmlRA_as3b73YkfldzCnenUl3oaoJcO5Xah8Bimyp5M-LE51sByyQFT9RFsDR3BfG2qPBGCQo0xfYN3PPZ_zxB9YUVHJHRuXDybP6e3naiUpT8','hello message','hello Fathy, how are you?',[]);
         return view('contact_us');
     }
 
