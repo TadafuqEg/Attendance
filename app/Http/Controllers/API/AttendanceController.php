@@ -6,8 +6,11 @@ use App\Models\User;
 use App\Models\Attendance;
 use App\Models\JoinUs;
 use Spatie\Permission\Models\Role;
+use DateTime;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Services\FirebaseService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -15,7 +18,12 @@ use App\Mail\SendOTP;
 use Illuminate\Support\Facades\Validator;
 
 class AttendanceController extends ApiController
-{
+{     
+      protected $firebaseService;
+      public function __construct(FirebaseService $firebaseService)
+      {
+          $this->firebaseService = $firebaseService;
+      }
       public function check_in_out(Request $request){
         $validator  =   Validator::make($request->all(), [
               
@@ -166,6 +174,46 @@ class AttendanceController extends ApiController
         $response['absence_count']= Attendance::where('date',$request->date)->where('status','!=','attendance')->count();
 
         return $this->sendResponse($response,null,200);
+      }
+
+
+      public function notify_user(){
+        $current_time = new DateTime();
+        $start_time = DateTime::createFromFormat('H:i', '09:00');
+        $end_time = DateTime::createFromFormat('H:i', '10:00');
+
+        if ($current_time >= $start_time && $current_time <= $end_time) {
+          $attendance1=Attendance::where('date',date('Y-m-d'))->where('check_in',null)->get();
+          foreach($attendance1 as $attend){
+               if($attend->user->device_token){
+                $this->firebaseService->sendNotification($attend->user->device_token,'Check-In',"Don't forget to check in",[]);
+                $data=[
+                  "title"=>"Check-In",
+                  "message"=>"Don't forget to check in"];
+                  Notification::create(['user_id'=>$attend->user_id,'data'=>$data]);
+               }
+              
+
+          }
+        }
+
+        $start_time2 = DateTime::createFromFormat('H:i', '16:00');
+        $end_time2 = DateTime::createFromFormat('H:i', '18:00');
+        if ($current_time >= $start_time2 && $current_time <= $end_time2) {
+          $attendance2=Attendance::where('date',date('Y-m-d'))->where('check_in','!=',null)->where('check_out',null)->get();
+          foreach($attendance2 as $attendance){
+               if($attendance->user->device_token){
+                $this->firebaseService->sendNotification($attendance->user->device_token,'CHeck-Out',"Don't forget to check out",[]);
+                $data=[
+                  "title"=>"Check-In",
+                  "message"=>"Don't forget to check in"];
+                  Notification::create(['user_id'=>$attend->user_id,'data'=>$data]);
+               }
+          }
+          
+
+        }
+        return $this->sendResponse(null,'success',200);
       }
 
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\FirebaseService;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -20,11 +20,7 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    protected $firebaseService;
-    public function __construct(FirebaseService $firebaseService)
-    {
-        $this->firebaseService = $firebaseService;
-    }
+   
 ///////////////////////////////////////////  Login  ///////////////////////////////////////////
     public function login_view(){
         return view('dashboard.login');
@@ -125,7 +121,6 @@ class AuthController extends Controller
 
     public function contact_us(){
         
-        $this->firebaseService->sendNotification('fCwn2Zb9QeGnzc7NhGY-lC:APA91bHZUOmlRA_as3b73YkfldzCnenUl3oaoJcO5Xah8Bimyp5M-LE51sByyQFT9RFsDR3BfG2qPBGCQo0xfYN3PPZ_zxB9YUVHJHRuXDybP6e3naiUpT8','hello message','hello Fathy, how are you?',[]);
         return view('contact_us');
     }
 

@@ -87,7 +87,7 @@ class LeaveRequestController extends Controller
                                             'rejection_reason'=> $request->rejection_reason
                                            ]);
         $Vacation_Request=VacationRequest::find($id);
-        if($Vacation_Request->type!='emergency_vacation'){
+        if($Vacation_Request->type!='emergency_vacation' && $Vacation_Request->type!='sick_vacation'){
             if($request->hr_approval=='rejected' || $request->Manager_approval=='rejected'){
                 $Vacation_Request->status='rejected';
                 $Vacation_Request->save();

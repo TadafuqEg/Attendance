@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/create_attendance',[AttendanceController::class,'create_attendance'])->name('create_attendance');
+Route::get('/notify_user',[AttendanceController::class,'notify_user'])->name('notify_user');
+
 //Route::post('/register',[AuthController::class,'register'])->name('register');
 Route::post('/login',[AuthController::class,'login'])->name('login');
 

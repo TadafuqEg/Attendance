@@ -46,7 +46,7 @@
                       </div>
                       @endif
                      
-                      @if($VacationRequest->type!='emergency_vacation')
+                      @if($VacationRequest->type!='emergency_vacation' && $VacationRequest->type!='sick_vacation')
                         <div class="form-group">
                             <label>HR Approval</label>
                             <select class="form-control" name="hr_approval">
