@@ -10,9 +10,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Notification;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Services\FirebaseService;
 use DateTime;
 use App\Models\Attendance;
 use App\Models\VacationRequest;
@@ -23,6 +25,11 @@ use File;
 use Maatwebsite\Excel\Facades\Excel;
 class LeaveRequestController extends Controller
 {//done
+    protected $firebaseService;
+      public function __construct(FirebaseService $firebaseService)
+      {
+          $this->firebaseService = $firebaseService;
+      }
     public function index(Request $request)
     {
         // if($request->has('export') && $request->export=='1'){
@@ -91,6 +98,14 @@ class LeaveRequestController extends Controller
             if($request->hr_approval=='rejected' || $request->Manager_approval=='rejected'){
                 $Vacation_Request->status='rejected';
                 $Vacation_Request->save();
+                $this->firebaseService->sendNotification($Vacation_Request->user->device_token,'Regular Request',"Unfortunately, your request registered with code “" . $Vacation_Request->code . "” has been rejected",[ "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id)]);
+                $data=[
+                  "title"=>"Regular Request",
+                  "message"=>"Unfortunately, your request registered with code “" . $Vacation_Request->code . "” has been rejected",
+                  "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id)
+                ];
+                  Notification::create(['user_id'=>$Vacation_Request->user_id,'data'=>json_encode($data)]);
+               
                 $start = new DateTime($Vacation_Request->from);
                 $end = new DateTime($Vacation_Request->to);
                 $end->modify('+1 day');
@@ -105,6 +120,13 @@ class LeaveRequestController extends Controller
             }elseif($request->hr_approval=='accepted' && $request->Manager_approval=='accepted'){
                 $Vacation_Request->status='accepted';
                 $Vacation_Request->save();
+                $this->firebaseService->sendNotification($Vacation_Request->user->device_token,'Regular Request',"Your request registered with code “" . $Vacation_Request->code . "” has been accepted",[ "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id)]);
+                $data=[
+                  "title"=>"Regular Request",
+                  "message"=>"Your request registered with code “" . $Vacation_Request->code . "” has been accepted",
+                  "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id)
+                ];
+                  Notification::create(['user_id'=>$Vacation_Request->user_id,'data'=>json_encode($data)]);
                 $start = new DateTime($Vacation_Request->from);
                 $end = new DateTime($Vacation_Request->to);
                 $end->modify('+1 day');

@@ -20,9 +20,16 @@ use Image;
 use Str;
 use App\Exports\AttendanceExport;
 use File;
+use App\Models\Notification;
+use App\Services\FirebaseService;
 use Maatwebsite\Excel\Facades\Excel;
 class permissionRequestController extends Controller
-{//done
+{
+    protected $firebaseService;
+    public function __construct(FirebaseService $firebaseService)
+    {
+        $this->firebaseService = $firebaseService;
+    }
     public function index(Request $request)
     {
        
@@ -87,10 +94,24 @@ class permissionRequestController extends Controller
             if($request->hr_approval=='rejected' || $request->Manager_approval=='rejected'){
                 $Leave_Permission->status='rejected';
                 $Leave_Permission->save();
+                $this->firebaseService->sendNotification($Leave_Permission->user->device_token,'Regular Request',"Unfortunately, your permission request registered with code “" . $Leave_Permission->code . "” has been rejected",[ "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id)]);
+                $data=[
+                  "title"=>"Regular Request",
+                  "message"=>"Unfortunately, your permission request registered with code “" . $Leave_Permission->code . "” has been rejected",
+                  "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id)
+                ];
+                  Notification::create(['user_id'=>$Leave_Permission->user_id,'data'=>json_encode($data)]);
                
             }elseif($request->hr_approval=='accepted' && $request->Manager_approval=='accepted'){
                 $Leave_Permission->status='accepted';
                 $Leave_Permission->save();
+                $this->firebaseService->sendNotification($Leave_Permission->user->device_token,'Regular Request',"Your permission request registered with code “" . $Leave_Permission->code . "” has been accepted",[ "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id)]);
+                $data=[
+                  "title"=>"Regular Request",
+                  "message"=>"Your permission request registered with code “" . $Leave_Permission->code . "” has been accepted",
+                  "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id)
+                ];
+                  Notification::create(['user_id'=>$Leave_Permission->user_id,'data'=>json_encode($data)]);
                
             }
         
