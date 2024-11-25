@@ -205,9 +205,9 @@ class AttendanceController extends ApiController
                if($attendance->user->device_token){
                 $this->firebaseService->sendNotification($attendance->user->device_token,'CHeck-Out',"Don't forget to check out",[]);
                 $data=[
-                  "title"=>"Check-In",
-                  "message"=>"Don't forget to check in"];
-                  Notification::create(['user_id'=>$attend->user_id,'data'=>$data]);
+                  "title"=>"Check-Out",
+                  "message"=>"Don't forget to check out"];
+                  Notification::create(['user_id'=>$attendance->user_id,'data'=>$data]);
                }
           }
           
