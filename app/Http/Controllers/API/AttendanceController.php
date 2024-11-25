@@ -197,7 +197,7 @@ class AttendanceController extends ApiController
           }
         }
 
-        $start_time2 = DateTime::createFromFormat('H:i', '16:00');
+        $start_time2 = DateTime::createFromFormat('H:i', '17:00');
         $end_time2 = DateTime::createFromFormat('H:i', '18:00');
         if ($current_time >= $start_time2 && $current_time <= $end_time2) {
           $attendance2=Attendance::where('date',date('Y-m-d'))->where('check_in','!=',null)->where('check_out',null)->get();
