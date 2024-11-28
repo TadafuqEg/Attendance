@@ -19,7 +19,7 @@ class ReportController extends ApiController
     public function index(){
         $response['evaluations']=Evaluation::where('user_id',auth()->user()->id)->where('year',intval(date('Y')))->orderBy('month', 'asc')->get();
         $response['leaves']= Attendance::where('user_id',auth()->user()->id)->whereIn('status',['emergency_vacation','ordinary_vacation'])->whereYear('date', date('Y'))->count();
-        $response['leaves_credit']=14-$response['leaves'];
+        $response['leaves_credit']=21-$response['leaves'];
         return $this->sendResponse($response,null,200);
     }
 }
