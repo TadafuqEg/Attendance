@@ -71,7 +71,22 @@ class AuthController extends ApiController
         return $this->sendResponse(null,'logout successfuly',200);
         
     }
+    public function device_tocken(Request $request){
+        $validator  =   Validator::make($request->all(), [
+            'device_token'=>'required'
+        ]);
+        // dd($request->all());
+        if ($validator->fails()) {
 
+            return $this->sendError(null,$validator->errors(),400);
+        }
+
+        $user=auth()->user();
+        $user->device_token=$request->device_token;
+        $user->save();
+        return $this->sendResponse(null,'FCM-Tocken saved successfully.',200);
+
+    }
     public function update_password(Request $request){
         // Validate the incoming request
         $validator = Validator::make($request->all(), [
