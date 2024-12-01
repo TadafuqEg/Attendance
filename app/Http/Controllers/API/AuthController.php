@@ -140,7 +140,7 @@ class AuthController extends ApiController
     }
 
     public function user_notification(){
-        $notifications=Notification::where('user_id',auth()->user()->id)->orderBy('date', 'desc')->get();
+        $notifications=Notification::where('user_id',auth()->user()->id)->orderBy('id', 'desc')->get();
         return $this->sendResponse($notifications,null,200);
     }
 }
