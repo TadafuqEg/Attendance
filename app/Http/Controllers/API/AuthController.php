@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendOTP;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends ApiController
@@ -136,5 +137,10 @@ class AuthController extends ApiController
         $user=auth()->user();
         $user->image=getFirstMediaUrl($user,$user->avatarCollection);
         return $this->sendResponse($user,'profile updated successfully.',200);
+    }
+
+    public function user_notification(){
+        $notifications=Notification::where('user_id',auth()->user()->id)->orderBy('date', 'desc')->get();
+        return $this->sendResponse($notifications,null,200);
     }
 }
