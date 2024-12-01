@@ -146,4 +146,20 @@ class AuthController extends ApiController
         });
         return $this->sendResponse($notifications,null,200);
     }
+
+    public function seen_notification(Request $request){
+        $validator = Validator::make($request->all(), [
+            'notification_id' => 'required|exists:notifications,id',
+        ]);
+    
+        if ($validator->fails()) {
+            
+            return $this->sendError(null,$validator->errors(),401);
+
+        }
+        $notification=Notification::findOrFail($request->notification_id);
+        $notification->seen='1';
+        $notification->save();
+        return $this->sendResponse(null,'Notification seen successfully',200);
+    }
 }

@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
     Route::post('/device_tocken',[AuthController::class,'device_tocken'])->name('device_tocken');
     Route::get('/user_notification',[AuthController::class,'user_notification'])->name('user_notification');
-
+    Route::post('/seen_notification',[AuthController::class,'seen_notification'])->name('seen_notification');
     Route::post('/update_password',[AuthController::class,'update_password'])->name('update_password');
     Route::get('/profile',[AuthController::class,'profile'])->name('profile');
     Route::get('/home',[AttendanceController::class,'home'])->name('home');
