@@ -98,7 +98,7 @@ class LeaveRequestController extends Controller
             if($request->hr_approval=='rejected' || $request->Manager_approval=='rejected'){
                 $Vacation_Request->status='rejected';
                 $Vacation_Request->save();
-                $this->firebaseService->sendNotification($Vacation_Request->user->device_token,'Regular Request',"Unfortunately, your request registered with code “" . $Vacation_Request->code . "” has been rejected",[ "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id),"screen"=>"Request"]);
+                $this->firebaseService->sendNotification($Vacation_Request->user->device_token,'Regular Request',"Unfortunately, your request registered with code “" . $Vacation_Request->code . "” has been rejected",[ "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id),"screen"=>"Request","RequestID"=>$Vacation_Request->id]);
                 $data=[
                   "title"=>"Regular Request",
                   "message"=>"Unfortunately, your request registered with code “" . $Vacation_Request->code . "” has been rejected",
@@ -120,7 +120,7 @@ class LeaveRequestController extends Controller
             }elseif($request->hr_approval=='accepted' && $request->Manager_approval=='accepted'){
                 $Vacation_Request->status='accepted';
                 $Vacation_Request->save();
-                $this->firebaseService->sendNotification($Vacation_Request->user->device_token,'Regular Request',"Your request registered with code “" . $Vacation_Request->code . "” has been accepted",[ "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id),"screen"=>"Request"]);
+                $this->firebaseService->sendNotification($Vacation_Request->user->device_token,'Regular Request',"Your request registered with code “" . $Vacation_Request->code . "” has been accepted",[ "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id),"screen"=>"Request","RequestID"=>$Vacation_Request->id]);
                 $data=[
                   "title"=>"Regular Request",
                   "message"=>"Your request registered with code “" . $Vacation_Request->code . "” has been accepted",
