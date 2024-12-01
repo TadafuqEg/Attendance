@@ -94,7 +94,7 @@ class permissionRequestController extends Controller
             if($request->hr_approval=='rejected' || $request->Manager_approval=='rejected'){
                 $Leave_Permission->status='rejected';
                 $Leave_Permission->save();
-                $this->firebaseService->sendNotification($Leave_Permission->user->device_token,'Regular Request',"Unfortunately, your permission request registered with code “" . $Leave_Permission->code . "” has been rejected",[ "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id)]);
+                $this->firebaseService->sendNotification($Leave_Permission->user->device_token,'Regular Request',"Unfortunately, your permission request registered with code “" . $Leave_Permission->code . "” has been rejected",[ "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id),"screen"=>"Permission"]);
                 $data=[
                   "title"=>"Regular Request",
                   "message"=>"Unfortunately, your permission request registered with code “" . $Leave_Permission->code . "” has been rejected",
@@ -105,7 +105,7 @@ class permissionRequestController extends Controller
             }elseif($request->hr_approval=='accepted' && $request->Manager_approval=='accepted'){
                 $Leave_Permission->status='accepted';
                 $Leave_Permission->save();
-                $this->firebaseService->sendNotification($Leave_Permission->user->device_token,'Regular Request',"Your permission request registered with code “" . $Leave_Permission->code . "” has been accepted",[ "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id)]);
+                $this->firebaseService->sendNotification($Leave_Permission->user->device_token,'Regular Request',"Your permission request registered with code “" . $Leave_Permission->code . "” has been accepted",[ "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id),"screen"=>"Permission"]);
                 $data=[
                   "title"=>"Regular Request",
                   "message"=>"Your permission request registered with code “" . $Leave_Permission->code . "” has been accepted",

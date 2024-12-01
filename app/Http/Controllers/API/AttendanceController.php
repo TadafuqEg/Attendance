@@ -186,7 +186,7 @@ class AttendanceController extends ApiController
           $attendance1=Attendance::where('date',date('Y-m-d'))->where('check_in',null)->get();
           foreach($attendance1 as $attend){
                if($attend->user->device_token){
-                $this->firebaseService->sendNotification($attend->user->device_token,'Check-In',"Don't forget to check in",[ "url" => url('/home')]);
+                $this->firebaseService->sendNotification($attend->user->device_token,'Check-In',"Don't forget to check in",[ "url" => url('/home'),"screen"=>"Home"]);
                 $data=[
                   "title"=>"Check-In",
                   "message"=>"Don't forget to check in"];
@@ -203,7 +203,7 @@ class AttendanceController extends ApiController
           $attendance2=Attendance::where('date',date('Y-m-d'))->where('check_in','!=',null)->where('check_out',null)->get();
           foreach($attendance2 as $attendance){
                if($attendance->user->device_token){
-                $this->firebaseService->sendNotification($attendance->user->device_token,'CHeck-Out',"Don't forget to check out",["url" => url('/home')]);
+                $this->firebaseService->sendNotification($attendance->user->device_token,'CHeck-Out',"Don't forget to check out",["url" => url('/home'),"screen"=>"Home"]);
                 $data=[
                   "title"=>"Check-Out",
                   "message"=>"Don't forget to check out"];
