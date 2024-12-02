@@ -183,7 +183,7 @@ class AttendanceController extends ApiController
         $end_time = DateTime::createFromFormat('H:i', '10:00');
 
         if ($current_time >= $start_time && $current_time <= $end_time) {
-          $attendance1=Attendance::where('date',date('Y-m-d'))->where('check_in',null)->get();
+          $attendance1=Attendance::where('date',date('Y-m-d'))->where('check_in',null)->where('status','non')->get();
           foreach($attendance1 as $attend){
                if($attend->user->device_token){
                 $this->firebaseService->sendNotification($attend->user->device_token,'Check-In',"Don't forget to check in",[ "url" => url('/home'),"screen"=>"Home"]);
