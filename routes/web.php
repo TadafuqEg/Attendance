@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\AdminController;
 use App\Http\Controllers\Dashboard\LeaveRequestController;
 use App\Http\Controllers\Dashboard\permissionRequestController;
 use App\Http\Controllers\Dashboard\EvaluationController;
+use App\Http\Controllers\Dashboard\OfficialHolidayController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,7 +72,11 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin-dashboard'], functio
         Route::get('/permission_request/edit/{id}', [permissionRequestController::class, 'edit'])->name('edit.permission_request');
         Route::post('/permission_request/update/{id}', [permissionRequestController::class, 'update'])->name('update.permission_request');
         Route::get('/permission_request/delete/{id}', [permissionRequestController::class, 'delete'])->name('delete.permission_request');
-         /////////////////////////////////////////
-         Route::any('/evaluations', [EvaluationController::class, 'index'])->name('evaluations'); 
-         Route::get('/evaluation/view/{id}', [EvaluationController::class, 'view'])->name('view.evaluation');
+        /////////////////////////////////////////
+        Route::any('/evaluations', [EvaluationController::class, 'index'])->name('evaluations'); 
+        Route::get('/evaluation/view/{id}', [EvaluationController::class, 'view'])->name('view.evaluation');
+        /////////////////////////////////////////
+        Route::any('/official_holidays', [OfficialHolidayController::class, 'index'])->name('official_holidays'); 
+        Route::get('/official_holiday/edit/{id}', [OfficialHolidayController::class, 'edit'])->name('edit.official_holiday');
+        Route::post('/official_holiday/update/{id}', [OfficialHolidayController::class, 'update'])->name('update.official_holiday');
 });

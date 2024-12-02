@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendOTP;
+use App\Models\OfficialHoliday;
 use Illuminate\Support\Facades\Validator;
 
 class AttendanceController extends ApiController
@@ -146,6 +147,13 @@ class AttendanceController extends ApiController
                 $q->where('name', 'Client');
             })
             ->get();
+        $dayOff=date('l') == 'Friday'||date('l') == "Saturday"? true : false ;
+        $currentDate=date('Y-m-d');
+        $holiday = OfficialHoliday::where('date_from', '<=', $currentDate)
+                                  ->where(function ($query) use ($currentDate) {
+                                      $query->whereNull('date_to')->orWhere('date_to', '>=', $currentDate);
+                                  })
+                                  ->first();
         foreach($users as $user){
           $attendance=Attendance::where('user_id',$user->id)->where('date',date('Y-m-d'))->first();
           if(!$attendance){
@@ -153,7 +161,7 @@ class AttendanceController extends ApiController
                                 'date'=>date('Y-m-d')
                                 ]);
           }
-          if (date('l') == 'Friday'||date('l') == "Saturday") {
+          if ($dayOff || $holiday) {
             $attendance->status = 'vacation';
             $attendance->save();
           }
