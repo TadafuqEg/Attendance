@@ -42,6 +42,11 @@
           <i class="zmdi zmdi-view-dashboard"></i> <span>Evaluations</span>
         </a>
       </li>
+      <li>
+        <a href="{{url('/admin-dashboard/official_holidays')}}">
+          <i class="zmdi zmdi-view-dashboard"></i> <span>Official Holidays</span>
+        </a>
+      </li>
       
 
     </ul>
