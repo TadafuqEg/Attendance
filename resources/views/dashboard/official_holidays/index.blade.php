@@ -33,7 +33,7 @@
                             <form id="searchForm" class="search-bar" style="margin-bottom:1%;margin-right:20px;margin-left:0px;"method="post" action="{{ route('official_holidays') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div style="display:flex;">
-                                  <h5 class="card-title" style="width: 65%;">Official Holidays</h5>
+                                  <h5 class="card-title" style="width: 70%;">Official Holidays</h5>
                                   <div style="display:flex;margin-bottom:1%;margin-left:0px;">
                                     {{-- <button  class="btn btn-light px-5" type="button" style="margin:0% 0% 1% 1%; width:25%;"onclick="exportData()">Export<i class="bi bi-download"></i> </button> --}}
                                    
