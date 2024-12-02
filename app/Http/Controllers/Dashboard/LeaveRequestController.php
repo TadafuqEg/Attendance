@@ -102,7 +102,9 @@ class LeaveRequestController extends Controller
                 $data=[
                   "title"=>"Regular Request",
                   "message"=>"Unfortunately, your request registered with code “" . $Vacation_Request->code . "” has been rejected",
-                  "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id)
+                  "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id),
+                  "screen"=>"Request",
+                  "RequestID"=>$Vacation_Request->id
                 ];
                   Notification::create(['user_id'=>$Vacation_Request->user_id,'data'=>json_encode($data)]);
                
@@ -124,7 +126,9 @@ class LeaveRequestController extends Controller
                 $data=[
                   "title"=>"Regular Request",
                   "message"=>"Your request registered with code “" . $Vacation_Request->code . "” has been accepted",
-                  "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id)
+                  "url" => url('/api/get_one_request?request_id=' . $Vacation_Request->id),
+                  "screen"=>"Request",
+                  "RequestID"=>$Vacation_Request->id
                 ];
                   Notification::create(['user_id'=>$Vacation_Request->user_id,'data'=>json_encode($data)]);
                 $start = new DateTime($Vacation_Request->from);

@@ -98,7 +98,9 @@ class permissionRequestController extends Controller
                 $data=[
                   "title"=>"Regular Request",
                   "message"=>"Unfortunately, your permission request registered with code “" . $Leave_Permission->code . "” has been rejected",
-                  "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id)
+                  "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id),
+                  "screen"=>"Permission",
+                  "PermissionID"=>$Leave_Permission->id
                 ];
                   Notification::create(['user_id'=>$Leave_Permission->user_id,'data'=>json_encode($data)]);
                
@@ -109,7 +111,9 @@ class permissionRequestController extends Controller
                 $data=[
                   "title"=>"Regular Request",
                   "message"=>"Your permission request registered with code “" . $Leave_Permission->code . "” has been accepted",
-                  "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id)
+                  "url" => url('/api/get_one_permission?permission_id=' . $Leave_Permission->id),
+                  "screen"=>"Permission",
+                  "PermissionID"=>$Leave_Permission->id
                 ];
                   Notification::create(['user_id'=>$Leave_Permission->user_id,'data'=>json_encode($data)]);
                
