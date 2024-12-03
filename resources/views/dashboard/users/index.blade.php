@@ -99,7 +99,7 @@
                                     <span  class="bi bi-pen" style="font-size: 1rem; color: rgb(255,255,255);"></span>
                                   </a>
                                  
-                                  <a href="#" onclick="showConfirmationPopup('{{ url('/admin-dashboard/user/delete/'.$user->id) }}')">
+                                  <a onclick="showConfirmationPopup('{{ url('/admin-dashboard/user/delete/'.$user->id) }}')">
                                     <span class="bi bi-trash" style="font-size: 1rem; color: rgb(255,255,255);"></span>
                                   </a>
                                  
