@@ -99,7 +99,7 @@
                                     <span  class="bi bi-pen" style="font-size: 1rem; color: rgb(255,255,255);"></span>
                                   </a>
                                  
-                                  <a onclick="showConfirmationPopup('{{ url('/admin-dashboard/user/delete/'.$user->id) }}')">
+                                  <a onclick='showConfirmationPopup("{{ url('/admin-dashboard/user/delete/'.$user->id) }}","{{$user->name}}","{{ getFirstMediaUrl($user, $user->avatarCollection) ?? asset('dashboard/user_avatar.png') }}")'>
                                     <span class="bi bi-trash" style="font-size: 1rem; color: rgb(255,255,255);"></span>
                                   </a>
                                  
@@ -138,15 +138,16 @@
           <div class="modal-body" style="color:black;">
             <div class="form-group">
               <div style="width: 100%;  display: flex;justify-content: center;">
-                <img id="userAvatar" src="{{asset('dashboard/logo.png')}}" class="logo-icon" alt="logo icon" style="width:100px;height:100px; border-radius: 50%;">
+                <img id="deletedUserAvatar" src="{{asset('dashboard/logo.png')}}" class="logo-icon" alt="logo icon" style="width:100px;height:100px; border-radius: 50%;">
               </div>
               <div style="width: 100%;  display: flex;justify-content: center;">
-                <h5 class="logo-text"style="color:black;font-weight: bold;" id="nameInput"></h5>
+                <h5 class="logo-text"style="color:black;font-weight: bold;" id="deletedNameInput"></h5>
 
               </div>
             </div>
-            <button onclick="deleteUser()"style="background-color: #f44336; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-right: 10px; width:48%; border-radius:10px;">Yes</button>
-            <button onclick="hideConfirmationPopup()"style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer;width:48%;border-radius:10px;">No</button>
+            <button onclick="hideConfirmationPopup()"style="background-color: #5f6360; color: white; padding: 10px 20px; border: none; cursor: pointer;width:48%;border-radius:10px;"><span class="bi bi-x" style="font-size: 1rem; color: rgb(255,255,255);"></span> Cancele</button>
+            <button onclick="deleteUser()"style="background-color: #f44336; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-right: 10px; width:48%; border-radius:10px;"><span class="bi bi-trash" style="font-size: 1rem; color: rgb(255,255,255);"></span> Delete</button>
+
           </div>
         </div>
       </div>
@@ -230,9 +231,10 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  function showConfirmationPopup(deleteUrl) {
+  function showConfirmationPopup(deleteUrl,name,imgSrc) {
    
-        
+        document.getElementById('deletedNameInput').textContent = name;
+        document.getElementById('deletedUserAvatar').src = imgSrc;
         const myModal = new bootstrap.Modal(document.getElementById('confirmationPopup'), {});
               myModal.show();
         // Set the delete URL in a data attribute to access it in the deleteUser function
