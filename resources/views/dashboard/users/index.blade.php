@@ -126,11 +126,7 @@
         </div>
     </div>
    
-    <div id="confirmationPopup" style="display: none;">
-      <p>Are you sure you want to delete this user?</p>
-      <button onclick="deleteUser()">Yes</button>
-      <button onclick="hideConfirmationPopup()">No</button>
-    </div>
+    
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -188,7 +184,22 @@
         </div>
       </div>
     </div>
-
+    <div class="modal fade" id="confirmationPopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle" style="color:black;">Are you sure you want to delete this user?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="color:black;">
+            <button onclick="deleteUser()">Yes</button>
+            <button onclick="hideConfirmationPopup()">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -211,14 +222,21 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   function showConfirmationPopup(deleteUrl) {
-    console.log('fff');
-        document.getElementById('confirmationPopup').style.display = 'block';
+   
+        
+        const myModal = new bootstrap.Modal(document.getElementById('confirmationPopup'), {});
+              myModal.show();
         // Set the delete URL in a data attribute to access it in the deleteUser function
         document.getElementById('confirmationPopup').setAttribute('data-delete-url', deleteUrl);
     }
 
     function hideConfirmationPopup() {
-        document.getElementById('confirmationPopup').style.display = 'none';
+       
+        var modal = document.getElementById('confirmationPopup');
+                  modal.classList.remove('show');
+                  modal.style.display = 'none';
+                  document.body.classList.remove('modal-open');
+                  document.getElementsByClassName('modal-backdrop')[0].remove();
     }
 
     function deleteUser() {
