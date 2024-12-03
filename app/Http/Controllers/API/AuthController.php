@@ -3,7 +3,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
 use App\Models\User;
-
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -60,7 +60,45 @@ class AuthController extends ApiController
         
         return $this->sendResponse($user,null,200);
     }
+    public function register(Request $request)
+    {
+       
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->whereNull('deleted_at'),
+            ],
+            'password' => 'required|string|min:8|confirmed',
+           
+        ];
 
+        $validator = Validator::make($request->all(), $rules);
+        
+        if ($validator->fails()) {
+            return $this->sendError(null, $validator->errors(), 400);
+        }
+        
+        
+       
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'username' => 'Client'
+        ]);
+        $role = Role::where('name','Client')->first();
+            
+        $user->assignRole([$role->id]);
+        $user->first_login='1';
+        $user->save();
+        $user->token=$user->createToken('api')->plainTextToken;
+        return $this->sendResponse($user,null,200);
+
+    }
     public function logout(Request $request){
         $user = $request->user();
         $currentToken = $user->currentAccessToken();
