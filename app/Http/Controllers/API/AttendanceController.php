@@ -149,9 +149,9 @@ class AttendanceController extends ApiController
             ->get();
         $dayOff=date('l') == 'Friday'||date('l') == "Saturday"? true : false ;
         $currentDate=date('Y-m-d');
-        $holiday = OfficialHoliday::where('date_from', '<=', $currentDate)
+        $holiday = OfficialHoliday::where('from', '<=', $currentDate)
                                   ->where(function ($query) use ($currentDate) {
-                                      $query->whereNull('date_to')->orWhere('date_to', '>=', $currentDate);
+                                      $query->whereNull('to')->orWhere('to', '>=', $currentDate);
                                   })
                                   ->first();
         foreach($users as $user){
