@@ -211,6 +211,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   function showConfirmationPopup(deleteUrl) {
+    console.log('fff');
         document.getElementById('confirmationPopup').style.display = 'block';
         // Set the delete URL in a data attribute to access it in the deleteUser function
         document.getElementById('confirmationPopup').setAttribute('data-delete-url', deleteUrl);
