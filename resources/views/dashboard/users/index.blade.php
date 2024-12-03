@@ -136,8 +136,17 @@
             </button>
           </div>
           <div class="modal-body" style="color:black;">
-            <button onclick="deleteUser()"style="background-color: #f44336; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-right: 10px;">Yes</button>
-            <button onclick="hideConfirmationPopup()"style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer;">No</button>
+            <div class="form-group">
+              <div style="width: 100%;  display: flex;justify-content: center;">
+                <img id="userAvatar" src="{{asset('dashboard/logo.png')}}" class="logo-icon" alt="logo icon" style="width:100px;height:100px; border-radius: 50%;">
+              </div>
+              <div style="width: 100%;  display: flex;justify-content: center;">
+                <h5 class="logo-text"style="color:black;font-weight: bold;" id="nameInput"></h5>
+
+              </div>
+            </div>
+            <button onclick="deleteUser()"style="background-color: #f44336; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-right: 10px; width:48%; border-radius:10px;">Yes</button>
+            <button onclick="hideConfirmationPopup()"style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer;width:48%;border-radius:10px;">No</button>
           </div>
         </div>
       </div>
