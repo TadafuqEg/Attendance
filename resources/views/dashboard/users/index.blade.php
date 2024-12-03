@@ -99,7 +99,7 @@
                                     <span  class="bi bi-pen" style="font-size: 1rem; color: rgb(255,255,255);"></span>
                                   </a>
                                  
-                                  <a href="{{url('/admin-dashboard/user/delete/'.$user->id)}}">
+                                  <a href="#" onclick="showConfirmationPopup('{{ url('/admin-dashboard/user/delete/'.$user->id) }}')">
                                     <span class="bi bi-trash" style="font-size: 1rem; color: rgb(255,255,255);"></span>
                                   </a>
                                  
@@ -126,7 +126,11 @@
         </div>
     </div>
    
-    
+    <div id="confirmationPopup" style="display: none;">
+      <p>Are you sure you want to delete this user?</p>
+      <button onclick="deleteUser()">Yes</button>
+      <button onclick="hideConfirmationPopup()">No</button>
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -205,6 +209,22 @@
 @push('scripts')
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function showConfirmationPopup(deleteUrl) {
+        document.getElementById('confirmationPopup').style.display = 'block';
+        // Set the delete URL in a data attribute to access it in the deleteUser function
+        document.getElementById('confirmationPopup').setAttribute('data-delete-url', deleteUrl);
+    }
+
+    function hideConfirmationPopup() {
+        document.getElementById('confirmationPopup').style.display = 'none';
+    }
+
+    function deleteUser() {
+        const deleteUrl = document.getElementById('confirmationPopup').getAttribute('data-delete-url');
+        window.location.href = deleteUrl;
+    }
+</script>
 <script>
     $(document).ready(function() {
         $('#submitForm').on('click', function() {

@@ -188,7 +188,7 @@ class AttendanceController extends ApiController
       public function notify_user(){
         $current_time = new DateTime();
         $start_time = DateTime::createFromFormat('H:i', '09:00');
-        $end_time = DateTime::createFromFormat('H:i', '11:50');
+        $end_time = DateTime::createFromFormat('H:i', '10:00');
 
         if ($current_time >= $start_time && $current_time <= $end_time) {
           $attendance1=Attendance::where('date',date('Y-m-d'))->where('check_in',null)->where('status','non')->get();
