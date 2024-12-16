@@ -53,7 +53,10 @@ class RequestController extends ApiController
                                                     'code'=>$code,
                                                     'from'=>date('Y-m-d',strtotime($request->date_from)),
                                                     'to'=>date('Y-m-d',strtotime($request->date_to)),
-                                                    'type'=>'sick_vacation']);
+                                                    'type'=>'sick_vacation',
+                                                    'status'=>'accepted',
+                                                    'hr_approval'=>'accepted',
+                                                    'Manager_approval'=>'accepted']);
         if($request->file('file')){
             
                 uploadMedia($request->file,$request_vacation->AttachmentCollection,$request_vacation);
@@ -72,6 +75,9 @@ class RequestController extends ApiController
             }
             if ($start->format('l') == 'Friday' || $start->format('l') == 'Saturday') {
                 $attendance->status = 'vacation';
+                $attendance->save();
+            }elseif(!in_array($attendance->status,['ordinary_vacation','emergency_vacation','vacation'])){
+                $attendance->status = 'sick_vacation';
                 $attendance->save();
             }
            
@@ -146,6 +152,9 @@ class RequestController extends ApiController
             }
             if ($start->format('l') == 'Friday' || $start->format('l') == 'Saturday') {
                 $attendance->status = 'vacation';
+                $attendance->save();
+            }elseif(!in_array($attendance->status,['ordinary_vacation','sick_vacation','vacation'])){
+                $attendance->status = 'emergency_vacation';
                 $attendance->save();
             }
            
