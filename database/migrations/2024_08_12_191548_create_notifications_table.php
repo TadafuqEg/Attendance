@@ -23,6 +23,14 @@ return new class extends Migration
             $table->softDeletes();
         });
     }
+    <a href="{{ url('terms_conditions?lang=en') }}">English</a>
+<a href="{{ url('terms_conditions?lang=ar') }}">العربية</a>
+<a href="{{ url('terms_conditions?lang=de') }}">Deutsch</a>
+<a href="{{ url('terms_conditions?lang=fr') }}">Français</a>
+<a href="{{ url('terms_conditions?lang=es') }}">Español</a>
+<a href="{{ url('terms_conditions?lang=tr') }}">Türkçe</a>
+<a href="{{ url('terms_conditions?lang=ru') }}">Русский</a>
+<a href="{{ url('terms_conditions?lang=zh') }}">中文</a>
 
     /**
      * Reverse the migrations.

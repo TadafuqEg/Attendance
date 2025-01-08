@@ -149,11 +149,16 @@ class AttendanceController extends ApiController
             ->get();
         $dayOff=date('l') == 'Friday'||date('l') == "Saturday"? true : false ;
         $currentDate=date('Y-m-d');
-        $holiday = OfficialHoliday::where('from', '<=', $currentDate)
-                                  ->where(function ($query) use ($currentDate) {
-                                      $query->whereNull('to')->orWhere('to', '>=', $currentDate);
-                                  })
-                                  ->first();
+        $holiday = OfficialHoliday::where(function ($query) use ($currentDate) {
+                                            $query->where(function ($subQuery) use ($currentDate) {
+                                                // One-day holiday
+                                                $subQuery->where('from', $currentDate)->whereNull('to');
+                                            })->orWhere(function ($subQuery) use ($currentDate) {
+                                                // Multi-day holiday
+                                                $subQuery->where('from', '<=', $currentDate)
+                                                        ->where('to', '>=', $currentDate);
+                                            });
+                                    })->exists();
         foreach($users as $user){
           $attendance=Attendance::where('user_id',$user->id)->where('date',date('Y-m-d'))->first();
           if(!$attendance){
